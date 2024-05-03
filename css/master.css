@@ -186,3 +186,10 @@ body.mmenu{
     background-attachment: fixed;
     background-size: cover;
 }
+img {
+    margin: auto; /* Centrado horizontal */
+    display: block; /* Alinea la imagen al centro */
+}
+p{
+    text-align: center;
+}
