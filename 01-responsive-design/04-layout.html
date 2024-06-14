@@ -5,8 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demon slayer</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
 </head>
 <body>
-    
+    <main>
+        <!-- navbar -->
+        <header>
+            <img src="img/12 1.png" alt="isologo">
+            <nav>
+                <a href="#epi">Episodios</a>
+                <a href="#manga">Manga</a>
+                <a href="#jue">Juegos</a>
+                <a href="#Habi">Habilidades</a>
+            </nav>
+        </header>
+        <!-- slider -->
+        <section class="slider owl-carousel owl-theme">
+            <img src="img/Rectangle 3.png" alt="Demon-Slayer">
+            <img src="img/slayer.jpeg" alt="Demon-Slayer">
+            <img src="img/demosn-slader3.jpeg" alt="Demon-Slayer">
+        </section>
+    </main>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                stagePadding: 0,
+                items: 1, 
+                loop:true,
+                nav:true,
+            })
+        })
+    </script>
 </body>
 </html>

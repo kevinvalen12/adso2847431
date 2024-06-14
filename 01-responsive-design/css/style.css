@@ -10,11 +10,90 @@ R e s e t
 V a r i a b l e
 -------------*/
 :root{
-    --heading: 'kanit' sans-;
-    --body: 'Lalezar';
+    --text-heading: 'kanit', sans-serif;
+    --text-body: 'Lalezar', sans-serif;
     --color1: #573B4A;
     --color2: #110E15;
     --color3: #176950;
     --color4: #172522;
     --color5: #EDDCD2;
 }
+/*------------- 
+V a r i a b l e
+-------------*/
+body{
+    background-color: var(--color4);
+    color: var(--color2);
+    main{
+        header{
+            background-color: var(--color5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-inline: 1rem;
+            img{
+                width: 200px;
+            }
+            nav{
+                display: flex;
+                height: 55px;
+                align-items: center;
+                gap: 1.2rem;
+                a:is(:link, :visited){
+                    color: var(--color5);
+                    width: 100px;
+                    border-radius: 10px;
+                    background-color: var(--color2);
+                    font-family: var(--text-body);
+                    text-decoration: none;
+                    font-size: 18px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    transition: transform 0.2s aese-in;
+
+                }
+                a:is(:hover) {
+                    transform: scale(1.1);
+                }
+            }
+        }
+        section.slider{
+            height: 600px;
+            div.owl-nav{
+                top: 50%;
+                transform: translateY(-50%);
+                button.owl-prev{
+                    button{
+                        transition: all 0.4s aese-in;
+                        span{
+                            background-color: #f00;
+                            display: flex;
+                            height: 80px;
+                            width: 80px;
+                            text-indent: -9999px;
+                        }
+                    }
+                    
+                    button.owl-prev{
+                        span{
+                            background: url(../img/flecha-correcta.png) no-repeat center;
+                        }
+                    }
+                    button.owl-next{
+                        span{
+                            background: url(../img/flecha-izquierda.png) no-repeat center;
+                        }
+                    }
+                    
+                    }
+                }
+            
+            img{
+                width: 100%;
+                height: 600px;
+                object-fit: cover;
+            }
+        }
+    }
+}    
