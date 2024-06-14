@@ -1,0 +1,20 @@
+/* --------------
+F o n t s
+---------------*/
+@import url('fonts.css');
+/*---------------
+R e s e t
+-------------- */
+@import url('fontss.css');
+/*------------- 
+V a r i a b l e
+-------------*/
+:root{
+    --heading: 'kanit' sans-;
+    --body: 'Lalezar';
+    --color1: #573B4A;
+    --color2: #110E15;
+    --color3: #176950;
+    --color4: #172522;
+    --color5: #EDDCD2;
+}
