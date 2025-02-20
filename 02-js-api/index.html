@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>01 Responsive Dessign</title>
     <link rel="stylesheet" href="../css/master.css">
-    <style>
-    </style>
 </head>
 <body class="level3">
     <nav>
@@ -19,15 +17,20 @@
             <h1>02 - Javascript (API)</h1>
             <h2>Fetching data from Rest API usign JS</h2>
         </header>
-        
+        <section>
+
+        </section>
     </main>
     <script>
         const fetchCaracters = async () => {
-            let url = 'https://pokeapi.co/api/v2/pokemon/1'
+            let url = 'https://rickandmortyapi.com/api/character/1'
             await fetch(url)
                   .then(response => response.json())
                   .then((data) => {
-                    console.log(data)
+                    // data muestra toda la informacion
+                    console.log(data.name)
+                    console.log(data.image)
+                    console.log(data.status)
                   })
         }
         fetchCaracters();
