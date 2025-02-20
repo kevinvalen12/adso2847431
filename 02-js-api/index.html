@@ -23,14 +23,14 @@
     </main>
     <script>
         const fetchCaracters = async () => {
-            let url = 'https://www.demonslayer-api.com/api/v1/characters?id=1'
+            let url = 'https://pokeapi.co/api/v2/pokemon/1'
             await fetch(url)
                   .then(response => response.json())
                   .then((data) => {
                     console.log(data)
                   })
         }
-        fetchCaracters
+        fetchCaracters();
     </script>
 </body>
 </html>
