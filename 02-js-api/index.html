@@ -1,46 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>01 Responsive Design</title>
     <link rel="stylesheet" href="../css/master.css">
     <style>
-        section.characters{
+        section.characters {
             display: grid;
-            grid-template-columns: repeat(5, 200px);
+            grid-template-columns: repeat(5, 220px);
             margin: 2rem 0 5rem 0;
             gap: 1rem;
-            div.character{
+            div.character {
                 border: 4px solid #fff;
                 border-radius: 6px;
                 position: relative;
+                overflow: hidden;
                 width: 220px;
                 height: 220px;
+
                 article,
-                img{
+                img {
                     position: absolute;
                 }
-                article{
-                    background-color: #000c;
+
+                article {
+                    background-color: rgba(22, 22, 22, 0.8);
                     z-index: 1;
-                    bottom: 0;
+                    bottom: -100px;
                     padding: 0.4rem;
                     width: 100%;
+                    transition: bottom 0.4s ease-in;
+
+                    h4,
+                    h5 {
+                        color: #fff;
+                    }
+
+                    .Alive {
+                        color: #45e600;
+                    }
+
+                    .Dead {
+                        color: #f40000;
+                    }
+                    .unknown{
+                        color: #e6d700;
+                    }
+
+                    button.btn-show {
+                        border: none;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        padding: 0.1rem 0.4rem;
+                        transition: transform 0.2s ease-in;
+                        font-size: 0.8rem;
+
+                        &:hover {
+                            transform: scale(1.15);
+                        }
+                    }
                 }
-                img{
+
+                &:hover article {
+                    bottom: 0;
+                }
+
+                img {
                     object-fit: cover;
                 }
 
+
+            }
+        }
+
+        @media screen and (max-width: 1190px) {
+            section.characters {
+                grid-template-columns: repeat(4, 220px)
+            }
+        }
+
+        @media screen and (max-width: 960px) {
+            section.characters {
+                grid-template-columns: repeat(3, 220px)
+            }
+        }
+
+        @media screen and (max-width: 720px) {
+            section.characters {
+                grid-template-columns: repeat(2, 220px)
             }
         }
     </style>
 </head>
+
 <body class="level3">
     <nav>
         <a href="../indeX.html">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                <path
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
             </svg>
         </a>
     </nav>
@@ -56,26 +116,42 @@
         const characters = document.querySelector('.characters');
 
         const fetchCaracters = async () => {
-           for(let i = 1 ; i <= 20 ; i++) {
-            let url = 'https://rickandmortyapi.com/api/character/1'+i;
-            await fetch(url)
-                .then(response => response.json())
-                .then((data) => {
-                    // data muestra toda la información
-                    characters.innerHTML += `
-                        <div class="character">
-                            <article><h2>${data.name}</h2>
-                            <h3>${data.status}</h3></article>
-                            <img src="${data.image}" alt="Character Image">
-                        </div>
-                    `;
-                });
-           } 
-            
-            
-        }; 
+            for (let i = 1; i <= 120; i++) {
+                let url = 'https://rickandmortyapi.com/api/character/' + i;
+                await fetch(url)
+                    .then(response => response.json())
+                    .then((data) => {
+                        // data muestra toda la información
+                        characters.innerHTML += '<div class="character"> \
+                            <article> \
+                                <h4>'+data.name.substring(0, 16)+'</h4> \
+                                <h5 class="'+data.status+ '">'+data.status+'</h5> \
+                                <button class="btn-show" data-id="'+data.id+'"> +info </button> \
+                            </article> \
+                            <img src="'+ data.image + '"> \
+                        </div> \
+                        <div class="modal"> \
+                            <p>Id: '+data.id+'</p> \
+                            <p>Species: '+data.species+'</p> \
+                            <p>Origin: '+data.origin.name+'</p> \
+                            <p>Location: '+data.location.name+'</p> \
+                            <p>Last Updated: '+data.updated+'</p> \
+                        </div>';
+                    })
+            }
+            addClickEvents()
+        }
+        function addClickEvents() {
+            const btnsShow = document.querySelectorAll('.btn-show')
+            btnsShow.forEach(element => {
+                element.addEventListener('click', function() {
+                    alert(this.getAttribute('data-id'))
+                })
+            })
+        }
 
         fetchCaracters();
     </script>
 </body>
+
 </html>
