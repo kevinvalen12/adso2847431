@@ -3,36 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>01 Responsive Dessign</title>
+    <title>01 Responsive Design</title>
     <link rel="stylesheet" href="../css/master.css">
+    <style>
+        section.characters{
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+        }
+    </style>
 </head>
 <body class="level3">
     <nav>
-        <a href="../indeX.html" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        <a href="../indeX.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+            </svg>
         </a>
     </nav>
     <main>
         <header>
-            <h1>02 - Javascript (API)</h1>
-            <h2>Fetching data from Rest API usign JS</h2>
+            <h1>02 - JavaScript (API)</h1>
+            <h2>Fetching data from REST API using JS</h2>
         </header>
-        <section>
-
-        </section>
+        <section class="characters"></section>
     </main>
     <script>
+        // elements
+        const characters = document.querySelector('.characters');
+
         const fetchCaracters = async () => {
-            let url = 'https://rickandmortyapi.com/api/character/1'
+           for(let i = 1 ; i <= 20 ; i++) {
+            let url = 'https://rickandmortyapi.com/api/character/1'+i;
             await fetch(url)
-                  .then(response => response.json())
-                  .then((data) => {
-                    // data muestra toda la informacion
-                    console.log(data.name)
-                    console.log(data.image)
-                    console.log(data.status)
-                  })
-        }
+                .then(response => response.json())
+                .then((data) => {
+                    // data muestra toda la información
+                    characters.innerHTML += `
+                        <div>
+                            <img src="${data.image}" alt="Character Image">
+                            <h2>${data.name}</h2>
+                            <h3>${data.status}</h3>
+                        </div>
+                    `;
+                });
+           } 
+            
+            
+        }; 
+
         fetchCaracters();
     </script>
 </body>
