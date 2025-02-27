@@ -12,98 +12,170 @@
             grid-template-columns: repeat(5, 220px);
             margin: 2rem 0 5rem 0;
             gap: 1rem;
-            div.character {
-                border: 4px solid #fff;
-                border-radius: 6px;
-                position: relative;
-                overflow: hidden;
-                width: 220px;
-                height: 220px;
-
-                article,
-                img {
-                    position: absolute;
-                }
-
-                article {
-                    background-color: rgba(22, 22, 22, 0.8);
-                    z-index: 1;
-                    bottom: -100px;
-                    padding: 0.4rem;
-                    width: 100%;
-                    transition: bottom 0.4s ease-in;
-
-                    h4,
-                    h5 {
-                        color: #fff;
-                    }
-
-                    .Alive {
-                        color: #45e600;
-                    }
-
-                    .Dead {
-                        color: #f40000;
-                    }
-                    .unknown{
-                        color: #e6d700;
-                    }
-
-                    button.btn-show {
-                        border: none;
-                        border-radius: 20px;
-                        cursor: pointer;
-                        padding: 0.1rem 0.4rem;
-                        transition: transform 0.2s ease-in;
-                        font-size: 0.8rem;
-
-                        &:hover {
-                            transform: scale(1.15);
-                        }
-                    }
-                }
-
-                &:hover article {
-                    bottom: 0;
-                }
-
-                img {
-                    object-fit: cover;
-                }
-
-
-            }
+        }
+        
+        div.character {
+            border: 4px solid #fff;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            width: 220px;
+            height: 220px;
+        }
+        
+        article, img {
+            position: absolute;
+        }
+        
+        article {
+            background-color: rgba(22, 22, 22, 0.8);
+            z-index: 1;
+            bottom: -100px;
+            padding: 0.4rem;
+            width: 100%;
+            transition: bottom 0.4s ease-in;
+        }
+        
+        h4, h5 {
+            color: #fff;
+        }
+        
+        .Alive {
+            color: #45e600;
+        }
+        
+        .Dead {
+            color: #f40000;
+        }
+        
+        .unknown {
+            color: #e6d700;
+        }
+        
+        button.btn-show {
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            padding: 0.1rem 0.4rem;
+            transition: transform 0.2s ease-in;
+            font-size: 0.8rem;
+        }
+        
+        button.btn-show:hover {
+            transform: scale(1.15);
+        }
+        
+        .character:hover article {
+            bottom: 0;
+        }
+        
+        img {
+            object-fit: cover;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .modal.open {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            overflow: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 25px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal.open .modal-content {
+            transform: scale(1);
         }
 
-        @media screen and (max-width: 1190px) {
-            section.characters {
-                grid-template-columns: repeat(4, 220px)
-            }
+        /* Asegura que el texto del modal esté bien alineado */
+        .modal-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            flex: 1;
         }
 
-        @media screen and (max-width: 960px) {
-            section.characters {
-                grid-template-columns: repeat(3, 220px)
-            }
+        .modal-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .modal-text p {
+            font-size: 1.1rem;
+            color: #34495e;
+            margin: 10px 0;
+        }
+        
+        .modal-text p strong {
+            color: #2c3e50;
         }
 
-        @media screen and (max-width: 720px) {
-            section.characters {
-                grid-template-columns: repeat(2, 220px)
-            }
+        .modal-close {
+            cursor: pointer;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: background-color 0.2s ease-in, transform 0.2s ease-in;
+        }
+        
+        .modal-close:hover {
+            background-color: #ff6b81;
+            transform: scale(1.05);
+        }
+        
+        #modal-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+        }
+        #modal-title {
+            width: 100%;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
         }
     </style>
 </head>
 
 <body class="level3">
-    <nav>
-        <a href="../indeX.html">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path
-                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-            </svg>
-        </a>
-    </nav>
     <main>
         <header>
             <h1>02 - JavaScript (API)</h1>
@@ -111,40 +183,77 @@
         </header>
         <section class="characters"></section>
     </main>
+    
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <div class="modal-text">
+                <h3 id="modal-title"></h3>
+                <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                <p><strong>Species:</strong> <span id="modal-species"></span></p>
+                <p><strong>Gender:</strong> <span id="modal-gender"></span></p>
+                <p><strong>Origin:</strong> <span id="modal-origin"></span></p>
+                <button class="modal-close">Close</button>
+            </div>
+            <img id="modal-image" src="" alt="Character Image">
+        </div>
+    </div>
+    
     <script>
-        // elements
         const characters = document.querySelector('.characters');
-
-        const fetchCaracters = async () => {
-            for (let i = 1; i <= 120; i++) {
+        const modal = document.getElementById('infoModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalStatus = document.getElementById('modal-status');
+        const modalSpecies = document.getElementById('modal-species');
+        const modalGender = document.getElementById('modal-gender');
+        const modalOrigin = document.getElementById('modal-origin');
+        const modalImage = document.getElementById('modal-image');
+        const modalClose = document.querySelector('.modal-close');
+        
+        const fetchCharacters = async () => {
+            for (let i = 1; i <= 20; i++) {
                 let url = 'https://rickandmortyapi.com/api/character/' + i;
                 await fetch(url)
                     .then(response => response.json())
                     .then((data) => {
-                        // data muestra toda la información
-                        characters.innerHTML += '<div class="character"> \
-                            <article> \
-                                <h4>'+data.name.substring(0, 16)+'</h4> \
-                                <h5 class="'+data.status+ '">'+data.status+'</h5> \
-                                <button class="btn-show" data-id="'+data.id+'"> +info </button> \
-                            </article> \
-                            <img src="'+ data.image + '"> \
-                        </div>';
+                        characters.innerHTML += `<div class="character"> 
+                            <article> 
+                                <h4>${data.name.substring(0, 16)}</h4> 
+                                <h5 class="${data.status}">${data.status}</h5> 
+                                <button class="btn-show" 
+                                    data-name="${data.name}" 
+                                    data-status="${data.status}" 
+                                    data-species="${data.species}" 
+                                    data-gender="${data.gender}" 
+                                    data-origin="${data.origin.name}"
+                                    data-image="${data.image}">+ Info</button> 
+                            </article> 
+                            <img src="${data.image}"> 
+                        </div>`;
                     })
             }
-            addClickEvents()
+            addClickEvents();
         }
+        
         function addClickEvents() {
-            const btnsShow = document.querySelectorAll('.btn-show')
+            const btnsShow = document.querySelectorAll('.btn-show');
             btnsShow.forEach(element => {
                 element.addEventListener('click', function() {
-                    alert(this.getAttribute('data-id'))
-                })
-            })
+                    modalTitle.textContent = this.getAttribute('data-name');
+                    modalStatus.textContent = this.getAttribute('data-status');
+                    modalSpecies.textContent = this.getAttribute('data-species');
+                    modalGender.textContent = this.getAttribute('data-gender');
+                    modalOrigin.textContent = this.getAttribute('data-origin');
+                    modalImage.src = this.getAttribute('data-image');
+                    modal.classList.add('open');
+                });
+            });
         }
-
-        fetchCaracters();
+        
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+        
+        fetchCharacters();
     </script>
 </body>
-
 </html>
