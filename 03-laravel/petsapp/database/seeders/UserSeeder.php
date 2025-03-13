@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //sedee
+        
         $user = new User();
         $user->document = '1000000000';
         $user->fullname = 'Sigar Persa';
@@ -23,6 +23,16 @@ class UserSeeder extends Seeder
         $user->email = 'persaSi@gmail.com';
         $user->password = bcrypt('12345678');
         $user->role = 'admin';
+        $user->save();
+
+        $user = new User();
+        $user->document = '1000000001';
+        $user->fullname = 'Miral Sinor';
+        $user->gender = 'Female';
+        $user->birthdate = '2004-02-01';
+        $user->phone = '3023001235';
+        $user->email = 'Miral@gmail.com';
+        $user->password = bcrypt('87654321');
         $user->save();
     }
 }
