@@ -10,9 +10,10 @@ Route::get('/', function () {
 
 Route::get('show/users', function () {
     $users = App\Models\User::all();
-    dd($users->toArray());
-    return view('users-factory');
-})->name('users');
+    //dd($users->toArray());
+    
+    return view('users-factory')->with('users', $users);
+});
 
 
 Route::view('dashboard', 'dashboard')
