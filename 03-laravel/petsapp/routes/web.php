@@ -9,6 +9,8 @@ Route::get('/', function () {
 // lista de los usuarios
 
 Route::get('show/users', function () {
+    $users = App\Models\User::all();
+    dd($users->toArray());
     return view('users-factory');
 })->name('users');
 
