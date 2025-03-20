@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
     //relaciones de usuarios al adoctar
     public function user(){
-        $this->hasMany(Adoption::class);
+        return $this->hasMany(Adoption::class);
     }
 
     /**

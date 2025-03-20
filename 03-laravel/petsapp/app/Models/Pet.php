@@ -27,7 +27,7 @@ class Pet extends Model
     ];
     //la mascota solo puede ser adoptada por una sola persona
     public function adoption(){
-        $this->hasOne(Adoption::class);
+        return $this->hasOne(Adoption::class);
     }
 }
 
