@@ -3,26 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Lista de usuarios</title>
+    <title>List All Users</title>
 </head>
-<body class="bg-teal-800 flex flex-col justify-center items-center min-h-screen text-center">
-    <h1 class="text-teal-400 text-4xl border-b-2 border-teal-400 ">
-        Lista de usuarios
-        <small class="text-teal-400 text-lg">
-            Recto de factory
-        </small>
-    </h1>
+<body class=
+            "bg-teal-800
+            text-teal-200
+            flex
+            flex-col
+            gap-8
+            justify-center
+            min-h-[100dvh]
+            items-center"> 
+    <h1 class=
+                "font-bold 
+                border-b-2
+                text-4xl">
+                List All Users 
+                <small class=
+                "text-teal-400 
+                text-lg">
+                Factory challenge
+                </small>
+            </h1>
+            
+            <section 
+            class= "users 
+                    grid 
+                    grid-cols-5 
+                    gap-2">
 
-    <section class="users grid grid-cols-5 gap-2 mt-4">
-        {{-- @foreach sirve para imprimir algo desde la base de datos--}}
-        @foreach ($users as $user)
-        <div>
-            <img src="{{ asset('images/.$user->photo') }}" width="100px" alt="{}">
-            <h3>{{ $user->fullname }}</h3>
-        </div>
-        @endforeach
-    </section>
+            @foreach($users as $user)
+                <div class=
+                    "bg-teal-700 
+                    p-4 
+                    rounded-lg">
+                    <img src="{{ asset('images/'.$user->photo)}} "width="100px" height="100px" class="rounded-full" alt="User Photo">
+                    <h2 class=
+                        "font-bold 
+                        text-lg">
+                        {{ $user->fullname }}
+                    </h2>
+                    <p class=
+                        "text-sm">
+                        {{ $user->gender}}
+                    </p>
+                    <p class=
+                        "text-sm">
+                        {{ $user->birthdate}}
+                    </p>
+                    <p class=
+                        "text-sm">
+                        {{ $user->email }}
+                    </p>
+                    <p class=
+                        "text-sm">
+                        {{ $user->phone}}
+                    </p>
+                </div>
+            @endforeach
+
+            </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 </html>

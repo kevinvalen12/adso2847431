@@ -86,52 +86,24 @@ class UserFactory extends Factory
    
     public function definition(): array
     {
-      
-        // parte donde descarga las fotos
-      
-       
-        // $maleImages = ['male1.png','male2.png','male3.png','male4.png'];
-     
-
-        $gender = fake()->randomElement(['male','female']);
-      
-
-        $imageFolder = "../../../public/images";
-        /**
-         * 
-         * lo que hace la ternaria es decidir apartir del genero
-         * que nombre poner
-         */
-
-        if  ($gender  == 'male') {
-            $nombre  = fake()->firstNameMale();
-            $imagePath  = $this->ConfigImage($gender);
-
-            
-
-        } else {
-            $nombre  = fake()->firstNameFemale();
-            $imagePath  = $this->ConfigImage($gender);
-
-            // $url = $urls[1].$itemNumber.'.png';
-            // $imageContent = file_get_contents($url);
-
-        
-        }
-
+        $gender = fake()->randomElement(array('Female', 'Male'));
+        $name = ($gender == 'Female') ? $name = fake() -> firstNameFemale() 
+                                      : $name = fake() -> firstNameMale();
+        ($gender == 'Female') ? $g = 'girl' : $g = 'boy';
+        $id = fake()->numerify('75######');
+        copy('https://avatar.iran.liara.run/public/'.$g, public_path('images/'.$id.'.png'));
         return [
-            'document' => fake()->unique()->numerify('##########'),
-            'fullname' => $nombre.' '.fake()->lastName(),
-            'gender' => $gender,
-            'birthdate' => fake()->date(),
-            'photo' => $imagePath,
-            'email'=> fake()->unique()->email(),
-            'phone' => fake()->numerify('##########'),
-            'email_verified_at'=> now(),
-            'password'=>static::$password?? Hash::make('123'),
-            'remember_token'=> Str::random(10)
+            'document' => $id,
+            'fullname' => $name. " " .fake()->lastName(),
+            'gender'=>  $gender,
+            'birthdate' => fake()->dateTimeBetween('1974-01-01','2004-12-31'),
+            'photo' => $id.'.png',
+            'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->numerify('320######'),
+            'email_verified_at' => now(),
+            'password' => static:: $password ??= Hash::make('12345'),
+            'remember_token' => Str::random(10)
         ];
-
     }
 
     /**
