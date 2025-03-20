@@ -49,16 +49,16 @@
                     </p>
                     <p class=
                         "text-sm">
-                        {{ $user->birthdate}}
-                    </p>
-                    <p class=
-                        "text-sm">
                         {{ $user->email }}
                     </p>
                     <p class=
                         "text-sm">
                         {{ $user->phone}}
                     </p>
+                    <h5>
+                        Adoptiones 
+                        <small>{{ $user->adoptions->count() }}</small>
+                    </h5>
                 </div>
             @endforeach
 

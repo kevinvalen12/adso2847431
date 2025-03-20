@@ -58,6 +58,12 @@ class User extends Authenticatable
     public function user(){
         return $this->hasMany(Adoption::class);
     }
+   
+    //funcion para guarlas adociones de cada usuario
+    public function adoptions()
+    {
+        return $this->hasMany(Adoption::class);
+    }
 
     /**
      * Get the user's initials
