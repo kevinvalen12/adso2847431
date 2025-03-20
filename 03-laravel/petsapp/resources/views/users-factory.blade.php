@@ -16,8 +16,10 @@
     </h1>
 
     <section class="users grid grid-cols-5 gap-2 mt-4">
+        {{-- @foreach sirve para imprimir algo desde la base de datos--}}
         @foreach ($users as $user)
         <div>
+            <img src="{{ asset('images/.$user->photo') }}" width="100px" alt="{}">
             <h3>{{ $user->fullname }}</h3>
         </div>
         @endforeach

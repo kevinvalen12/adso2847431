@@ -29,30 +29,32 @@ class UserFactory extends Factory
      * @return mixed retorna el path absoluto para guardarlos en la base de datos
      */
         public function downloadImage($url, $directory){
-        // esto lo que hace es valida que el directoriop tenga permiso y si no lo crea
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-    
-        // lo qwue hace es guardar le contenido de la imagen
-        $imageContent = file_get_contents($url);
-    
-        $filename = $directory . '/avatar_' . uniqid() . '.jpg'; //crear un unico nombre para este archivo
-    
-    
-        // esta si es la fuincion que guarda la imagen
-        file_put_contents($filename, $imageContent);
-    
-        // aqui es donde se obtiene la verdadera ruta del archivo
-        $imagePath = realpath($filename);
-    
-        $this->saveImageToDatabase($imagePath) ;
+            // esto lo que hace es valida que el directoriop tenga permiso y si no lo crea
+            if (!is_dir($directory)) {
+                mkdir($directory, 0755, true);
+            }
+        
+            // lo qwue hace es guardar le contenido de la imagen
+            $imageContent = file_get_contents($url);
+        
+            $filename = $directory . '/avatar_' . uniqid() . '.jpg'; //crear un unico nombre para este archivo
+        
+        
+            // esta si es la fuincion que guarda la imagen
+            file_put_contents($filename, $imageContent);
+        
+            // aqui es donde se obtiene la verdadera ruta del archivo
+            $imagePath = realpath($filename);
+        
+            
+            return $imagePath;
     }
 
     /**
      * guarda la imagen dependiendo el genero.
      *
      * @param string  $gender genero del usuario
+     * @return string $imagePath retorna el path del cual se guardo la imagen 
      */
 
     public function ConfigImage($gender) {
@@ -60,7 +62,7 @@ class UserFactory extends Factory
          * variables por defecto
          */
 
-
+        $imagePath = '';
         $directory = 'C:\Users\buitr\OneDrive\Documentos\GITHUB\adso2847431\03-laravel\petsapp\public\images';
         
         $urls = [
@@ -70,18 +72,16 @@ class UserFactory extends Factory
         /**
          *  condicional que determina el genero
          */
-        if($gender == 'Male') {
+        if($gender == 'male') {
             $url = $urls[0];
-            
-            
-            $this->downloadImage($url, $directory);
+            $imagePath = $this->downloadImage($url, $directory);
         }else{
             $url = $urls[1];
-            $this->downloadImage($url, $directory);
-
-           
-            // file_put_contents($path, $imageContent);
+            $imagePath = $this->downloadImage($url, $directory);
         }
+
+        return $imagePath;
+
     }
    
     public function definition(): array
@@ -96,7 +96,7 @@ class UserFactory extends Factory
         $gender = fake()->randomElement(['male','female']);
       
 
-        $imageFolder = "../../../public/images/avatars";
+        $imageFolder = "../../../public/images";
         /**
          * 
          * lo que hace la ternaria es decidir apartir del genero
@@ -105,15 +105,15 @@ class UserFactory extends Factory
 
         if  ($gender  == 'male') {
             $nombre  = fake()->firstNameMale();
-            $config =$this->ConfigImage($gender);
+            $imagePath  = $this->ConfigImage($gender);
 
             
 
         } else {
-            $config =$this->ConfigImage($gender);
+            $nombre  = fake()->firstNameFemale();
+            $imagePath  = $this->ConfigImage($gender);
 
             // $url = $urls[1].$itemNumber.'.png';
-            // $nombre  = fake()->firstNameFemale();
             // $imageContent = file_get_contents($url);
 
         
@@ -124,9 +124,12 @@ class UserFactory extends Factory
             'fullname' => $nombre.' '.fake()->lastName(),
             'gender' => $gender,
             'birthdate' => fake()->date(),
-            'phone' => fake()->numerify('##########'),
+            'photo' => $imagePath,
             'email'=> fake()->unique()->email(),
-            'password'=>'12345'
+            'phone' => fake()->numerify('##########'),
+            'email_verified_at'=> now(),
+            'password'=>static::$password?? Hash::make('123'),
+            'remember_token'=> Str::random(10)
         ];
 
     }
