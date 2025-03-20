@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Adoption extends Model
 {
-    //Adoption model
+    /**
+     * estos son los datos que nesecita la clase Adoption para fucionar
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'pet_id',
+       
     ];
 }
