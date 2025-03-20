@@ -54,6 +54,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    //relaciones de usuarios al adoctar
+    public function user(){
+        $this->hasMany(Adoption::class);
+    }
 
     /**
      * Get the user's initials

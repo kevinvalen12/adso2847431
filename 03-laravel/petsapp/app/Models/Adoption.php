@@ -15,4 +15,12 @@ class Adoption extends Model
         'pet_id',
        
     ];
+    //la mascota solo puede ser adoptada por una sola persona
+    public function user(){
+        $this->belongsTo(User::class);
+    }
+    //la mascota solo puede ser adoptada por una sola persona
+    public function pet(){
+        $this->belongsTo(Pet::class);
+    }
 }
