@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -35,9 +34,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-
     protected $hidden = [
-        'document',
         'password',
         'remember_token',
     ];
@@ -54,25 +51,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    //relaciones de usuarios al adoctar
-    public function user(){
-        return $this->hasMany(Adoption::class);
-    }
-   
-    //funcion para guarlas adociones de cada usuario
-    public function adoptions()
-    {
+
+
+    // RelationShip: User hasMany Adoptions
+    public function adoptions() {
         return $this->hasMany(Adoption::class);
     }
 
-    /**
-     * Get the user's initials
-     */
-    public function initials(): string
-    {
-        return Str::of($this->name)
-            ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
-            ->implode('');
-    }
 }
