@@ -21,7 +21,7 @@ class PetController extends Controller
      */
     public function create()
     {
-        //
+        return view('pets.create');
     }
 
     /**
@@ -47,7 +47,19 @@ class PetController extends Controller
         }
 
         $pet = new Pet;
-        
+        $pet->name = $request->name;
+        $pet->image = $image;
+        $pet->kind = $request->kind;
+        $pet->weight = $request->weight;
+        $pet->age = $request->age;
+        $pet->breed = $request->breed;
+        $pet->location = $request->location;
+        $pet->description = $request->description;
+        $pet->status = 0;
+
+        if($pet->save()){
+            return redirect('pets')->with('message', 'Thes pet: '.$pet->name.' was successfully added');
+        }
     }
 
     /**

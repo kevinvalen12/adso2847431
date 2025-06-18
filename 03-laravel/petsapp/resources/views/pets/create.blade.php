@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Create User')
+@section('title', 'Create Pet')
 
 @section('content')
 @include('layouts.navbar')
@@ -8,7 +8,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
     </svg>
-    Create User
+    Create Pet
 </h1>
 
 <form method="post" action="{{ route('pets.store') }}" class="pt-6 pb-20" enctype="multipart/form-data">
@@ -25,6 +25,7 @@
                         @endforeach
                     </div>
                 @endif
+
                 <div class="avatar max-auto flex flex-col gap-2 items-center ">
                     <div id="upload" class="mask mask-squircle w-36 cursor-pointer hover:scale-105 trasition-transform">
                         <img id="preview" src="{{ asset('images/no-photo.png') }}" />
@@ -34,62 +35,60 @@
                         upload photo
                     </small>
                 </div>
-                <input type="file" name="photo" id="photo" class="hidden">
-                <label class="fieldset-label">Document:</label>
-                <input type="number" name="document" class="input rounded-full w-full" placeholder="75000001" value="{{ old('document') }}" />
+                <input type="file" name="image" id="image" class="hidden">
 
-                <label class="fieldset-label">FullName:</label>
-                <input type="text" name="fullname" class="input rounded-full w-full" placeholder="John Wick" value="{{ old('fullname') }}"/>
+                <label class="fieldset-label">Pet Name:</label>
+                <input type="text" name="name" class="input rounded-full w-full" placeholder="Max" value="{{ old('name') }}" />
 
-                <label class="fieldset-label">Gender:</label>
-                <select name="gender" class="select rounded-full w-full">
-                    <option value="">Select Gender...</option>
-                    <option value="Female" @if(old('gender')=='Female') selected @endif>Female</option>
-                    <option value="Male" @if(old('gender')=='Male') selected @endif>Male</option>
+                <label class="fieldset-label">Kind:</label>
+                <select name="kind" class="select rounded-full w-full">
+                    <option value="">Select Kind...</option>
+                    <option value="Dog" @if(old('kind')=='Dog') selected @endif>Dog</option>
+                    <option value="Cat" @if(old('kind')=='Cat') selected @endif>Cat</option>
+                    <option value="Bird" @if(old('kind')=='Bird') selected @endif>Bird</option>
+                    <option value="Fish" @if(old('kind')=='Fish') selected @endif>Fish</option>
+                    <option value="Rabbit" @if(old('kind')=='Rabbit') selected @endif>Rabbit</option>
                 </select>
 
-                <label class="fieldset-label">BirthDate:</label>
-                <input type="date" name="birthdate" class="input rounded-full w-full" value="{{ old('birthdate') }}"/>
+                <label class="fieldset-label">Weight (kg):</label>
+                <input type="number" step="0.1" name="weight" class="input rounded-full w-full" placeholder="5.5" value="{{ old('weight') }}"/>
 
-                <label class="fieldset-label">Phone:</label>
-                <input type="text" name="phone" class="input rounded-full w-full" placeholder="3210000001" value="{{ old('phone') }}"/>
+                <label class="fieldset-label">Age (years):</label>
+                <input type="number" name="age" class="input rounded-full w-full" placeholder="2" value="{{ old('age') }}"/>
 
-                <label class="fieldset-label">Email:</label>
-                <input type="email" name="email" class="input rounded-full w-full" placeholder="jwick@mail.com" value="{{ old('email') }}"/>
+                <label class="fieldset-label">Breed:</label>
+                <input type="text" name="breed" class="input rounded-full w-full" placeholder="Golden Retriever" value="{{ old('breed') }}"/>
+
+                <label class="fieldset-label">Location:</label>
+                <input type="text" name="location" class="input rounded-full w-full" placeholder="Bogotá, Colombia" value="{{ old('location') }}"/>
+
+                <label class="fieldset-label">Description:</label>
+                <textarea name="description" class="textarea w-full" rows="4" placeholder="Tell us about this pet...">{{ old('description') }}</textarea>
                 
-                <label class="fieldset-label">Password:</label>
-                <input type="password" name="password" class="input rounded-full w-full" placeholder="secret" />
-
-                <label class="fieldset-label">Confirm Password:</label>
-                <input type="password" name="password_confirmation" class="input rounded-full w-full" placeholder="secret" />
-                
-                <button class="btn mt-4 p-6 rounded-full text-white bg-purple-800 w-full">Create</button>
-
+                <button class="btn mt-4 p-6 rounded-full text-white bg-purple-800 w-full">Create Pet</button>
 
         </fieldset>
     </form>
-    
 
-
-  
 @endsection
 
 @section('js')
 <script>
     // Obtener elementos
     const upload = document.getElementById('upload');
-    const photo = document.getElementById('photo');
+    const image = document.getElementById('image');
     const preview = document.getElementById('preview');
 
     // Abrir selector de archivo al hacer click en la imagen
     upload.addEventListener('click', function(e) {
-        photo.click();
+        image.click();
     });
 
     // Mostrar vista previa de la imagen seleccionada
-    photo.addEventListener('change', function(e) {
-        preview.src = URL.createObjectURL(this.files[0]);
+    image.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            preview.src = URL.createObjectURL(this.files[0]);
+        }
     });
 </script>
 @endsection
-
