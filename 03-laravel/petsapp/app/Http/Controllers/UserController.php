@@ -13,7 +13,8 @@ class UserController extends Controller
     public function index()
     {
         //$users = User::all();
-        $users = User::paginate(10);
+        //lastest() para listar del ultimo al primero
+        $users = User::latest()->paginate(10);
         //$users = User::simplePaginate(10);
         //dd($users->toArray()); //Dump & Die
         return view('users.index')->with('users', $users);
@@ -78,7 +79,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit')->with('user', $user);
     }
 
     /**
@@ -86,7 +87,39 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'document'  => ['required', 'numeric', 'unique:'.User::class],
+            'fullname'  => ['required', 'string'],
+            'gender'    => ['required'],
+            'birthdate' => ['required', 'date'],
+            'photo'     => ['required', 'image'],
+            'phone'     => ['required',],
+            'email'     => ['required', 'lowercase', 'email', 'unique:'.User::class],
+            'password'  => ['required', 'confirmed', 'min:4'],
+        ]);
+        if($validated){
+            //dd($request->all());
+            if($user->photo && file_exists(public_path('images/'.$user->photo))){
+                unlink(public_path('images/'.$user->photo));
+            }
+                $photo = time().'.'.$request->photo->extension();
+                $request->$photo->move(public_path('images', $photo));
+                $user->photo = $photo;
+        }
+        
+        $user = new user;
+        $user->document = $request->document;
+        $user->fullname = $request->fullname;
+        $user->gender = $request->gender;
+        $user->birthdate = $request->birthdate;
+        $user->photo = $photo;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); 
+
+        if($user->save()){
+            return redirect('users')->with('message', 'Thes user: '.$user->fullname.' was successfully added');
+        }
     }
 
     /**
@@ -94,6 +127,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        //funcion para eliminar la imagen
+        if($user->photo && file_exists(public_path('images/'.$user->photo))){
+            unlink(public_path('images/'.$user->photo));
+        }
+        //funcion para eliminar el registro
+        $user->delete();
+        return redirect('users')->with('message', 'The pet: '.$user->fullname.' was successfully deleted');
     }
 }

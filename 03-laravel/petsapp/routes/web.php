@@ -28,11 +28,7 @@ Route::get('hello', function() {
     return "<h1>Hello Laravel ❤️</h1>";
 })->name('hello');
 
-Route::get('show/pets', function() {
-    $pets = App\Models\Pet::all();
-    //var_dump($pets->toArray());
-    dd($pets->toArray());
-});
+
 
 Route::get('/challenge/users', function() {
     $users = User::limit(20)->get();
@@ -112,6 +108,10 @@ Route::get('show/pet/{id}', function() {
     return view('show-pet')->with('pet', $pet);
 });
 
+Route::get('edit/pet/{id}', function() {
+    $pet = App\Models\Pet::find(request()->id);
+    return view('edit-pet')->with('pet', $pet);
+});
 
 Route::get('/dashboard', function (Request $request) {
 
@@ -127,6 +127,7 @@ Route::get('/dashboard', function (Request $request) {
     }
     
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::middleware('auth')->group(function () {
