@@ -91,18 +91,32 @@
 
 {{ $pets->links('layouts.paginator') }}
 
-<dialog id="messaggeModal" class="modal">
+{{-- Modal --}}
+<dialog id="messageModal" class="modal">
   <div class="modal-box">
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
-    <h3 class="text-lg font-bold">Message</h3>
-    <p class="py-4" id="text-mensagge">Lorem Ipsum Dolor</p>
+    <div class="flex items-center gap-3 mb-4">
+      <div class="flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-success">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-success">Success!</h3>
+        <p class="text-sm text-gray-600">Operation completed successfully</p>
+      </div>
+    </div>
+    <div class="bg-base-200 p-4 rounded-lg">
+      <p id="text-message" class="text-base-content">Lorem Ipsum Dolor</p>
+    </div>
   </div>
 </dialog>
 
 @endsection
 
+{{-- funcion para el modal --}}
 @section('js')
 <script>
   const messaggeModal = document.querySelector('#messaggeModal');

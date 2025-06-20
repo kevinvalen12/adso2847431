@@ -87,41 +87,45 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $validated = $request->validate([
-            'document'  => ['required', 'numeric', 'unique:'.User::class],
-            'fullname'  => ['required', 'string'],
-            'gender'    => ['required'],
-            'birthdate' => ['required', 'date'],
-            'photo'     => ['required', 'image'],
-            'phone'     => ['required',],
-            'email'     => ['required', 'lowercase', 'email', 'unique:'.User::class],
-            'password'  => ['required', 'confirmed', 'min:4'],
+        $request->validate([
+            'document'  => 'nullable|numeric|unique:users,document,'.$user->id,
+            'fullname'  => 'nullable|string',
+            'gender'    => 'nullable|in:Male,Female',
+            'birthdate' => 'nullable|date',
+            'photo'     => 'nullable|image',
+            'phone'     => 'nullable|string',
+            'email'     => 'nullable|email|unique:users,email,'.$user->id,
+            'password'  => 'nullable|confirmed|min:4',
         ]);
-        if($validated){
-            //dd($request->all());
-            if($user->photo && file_exists(public_path('images/'.$user->photo))){
+        
+        //este sirve para filtrar los campos que se van a actualizar
+        $data = array_filter($request->only([
+            'document','fullname','gender','birthdate','phone','email'
+        ]), function($value) {
+            return !is_null($value) && $value !== '';
+        });
+
+        // este sirve pra ver si se subio la foto nueva
+        if ($request->hasFile('photo')) {
+            if ($user->photo && file_exists(public_path('images/'.$user->photo))) {
                 unlink(public_path('images/'.$user->photo));
             }
-                $photo = time().'.'.$request->photo->extension();
-                $request->$photo->move(public_path('images', $photo));
-                $user->photo = $photo;
+            
+            $photo = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('images'), $photo);
+            $data['photo'] = $photo;
         }
-        
-        $user = new user;
-        $user->document = $request->document;
-        $user->fullname = $request->fullname;
-        $user->gender = $request->gender;
-        $user->birthdate = $request->birthdate;
-        $user->photo = $photo;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password); 
 
-        if($user->save()){
-            return redirect('users')->with('message', 'Thes user: '.$user->fullname.' was successfully added');
+        //este sirve para ver si se cambio la contraseña
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
         }
+
+        $user->fill($data);
+        $user->save();
+
+        return redirect('users')->with('message', 'User updated successfully!');
     }
-
     /**
      * Remove the specified resource from storage.
      */

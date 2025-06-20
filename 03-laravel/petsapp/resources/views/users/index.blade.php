@@ -110,14 +110,12 @@
 @endsection
 @section('js')
 <script>
-  const messagge     = document.querySelector('#messageModal');
-  const textMensagge = document.querySelector('#text-mensagge');
+ const messageModal = document.querySelector('#messageModal');
+  const textMessage = document.querySelector('#text-message');
 
-  @if (session('messagge'))
-  
-  textMensagge.textContent = "{{ session('messagge') }}";
-  messaggeModal.showModal();
+  @if (session('message'))  // 'message' no 'messagge'
+      textMessage.textContent = "{{ session('message') }}";
+      messageModal.showModal();
   @endif
-
 </script>
 @endsection

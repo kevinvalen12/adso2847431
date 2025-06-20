@@ -84,43 +84,39 @@ class PetController extends Controller
      */
     public function update(Request $request, Pet $pet)
     {
-        $validated = request()->validate([
-            'name'        => ['required', 'string'],
-            'image'       => ['required', 'image'],
-            'kind'        => ['required', 'string'],
-            'weight'      => ['required', 'numeric'],
-            'age'         => ['required', 'numeric'],
-            'breed'       => ['required', 'string'],
-            'location'    => ['required', 'string'],
-            'description' => ['required', 'string'],
+       $request->validate([
+            'name'        => ['nullable', 'string'],
+            'image'       => ['nullable', 'image'],
+            'kind'        => ['nullable', 'string', 'in:Dog,Cat,Bird,Fish,Reptile'],
+            'weight'      => ['nullable', 'numeric'],
+            'age'         => ['nullable', 'numeric'],
+            'breed'       => ['nullable', 'string'],
+            'location'    => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
         ]);
-        if ($validated){
-            if($request->hasFile('image')){
-                // funcion para eliminar la imagen anterior
-                if($pet->image && file_exists(public_path('images/'.$pet->image))){
-                    unlink(public_path('images/'.$pet->image));
-                }
-                    $image = time() . '.' . $request->image->extension();
-                    $request->image->move(public_path('images'), $image);
-                    $pet->image = $image;
+        
+        //este sirve para filtrar los campos que se van a actualizar
+        $data = array_filter($request->only([
+            'name','kind','weight','age','breed','location','description'
+        ]), function($value) {
+            return !is_null($value) && $value !== '';
+        });
+
+        // este sirve pra ver si se subio la imagen nueva
+        if ($request->hasFile('image')) {
+            if ($pet->image && file_exists(public_path('images/'.$pet->image))) {
+                unlink(public_path('images/'.$pet->image));
             }
+            
+            $image = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $image);
+            $data['image'] = $image;
         }
 
-        $pet = new Pet;
-        $pet->name = $request->name;
-        $pet->image = $image;
-        $pet->kind = $request->kind;
-        $pet->weight = $request->weight;
-        $pet->age = $request->age;
-        $pet->breed = $request->breed;
-        $pet->location = $request->location;
-        $pet->description = $request->description;
-        $pet->status = 0;
+        $pet->fill($data);
+        $pet->save();
 
-        if($pet->save()){
-            return redirect('pets.show')->with('message', 'The pet: ' . $pet->name . ' was successfully updated');
-        }
-            return back()->with('error', 'Error updating the pet');
+        return redirect('pets')->with('message', 'Pet updated successfully!');
     }
 
     /**
